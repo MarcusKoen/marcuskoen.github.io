@@ -72,3 +72,13 @@ include $(PS2DEV)/ee/Makefile.eeglobal
 make
 hello.elf
 ```
+
+# FUCK ME THIS IS WHAT ACTUALLY WORKED
+```
+docker pull ps2dev/ps2dev:latest
+sudo docker run -it --rm -v "$PWD:/src" ps2dev/ps2dev:latest sh
+echo $PS2DEV
+ls $PS2DEV
+%ee  iop  dvp  ports
+mips64r5900el-ps2-elf-gcc --version
+```
