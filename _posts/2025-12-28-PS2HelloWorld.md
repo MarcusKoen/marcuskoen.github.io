@@ -15,70 +15,67 @@ The PS2 emulator. Can be found at [official PCSX2 website](https://pcsx2.net/dow
 # PS2 BIOS
 This is required for PCSX2 to run. You get it by dumping your PS2 BIOS to a USB...or maybe there are some floating around online.
 
-# Install dependencies
-```
-sudo apt update
-sudo apt install -y git build-essential cmake \
-    texinfo bison flex libgmp-dev libmpfr-dev libmpc-dev
-```
-# Install ps2dev Toolchain
-```
-git clone https://github.com/ps2dev/ps2dev.git
-cd ps2dev
-./install.sh
-```
-# Add to your shell config
 
+# FUCK ME THIS IS WHAT ACTUALLY WORKED
+
+# Persistent Docker
 ```
-~/.bashrc
-export PS2DEV=$HOME/ps2dev
+docker pull ps2dev/ps2dev:latest
+sudo docker run -it --rm -v "$(pwd)":/project -w /project ps2dev/ps2dev:latest
+
+export PS2DEV=/usr/local/ps2dev
+export PS2SDK=$PS2DEV/ps2sdk
 export PATH=$PATH:$PS2DEV/bin
-source ~/.bashrc
+
+echo $PS2DEV
+echo $PS2SDK
+%ee  iop  dvp  ports
 mips64r5900el-ps2-elf-gcc --version
-```
-# First program
-```
-#include <tamtypes.h>
-#include <kernel.h>
-#include <stdio.h>
+apk add --no-cache gmp mpfr mpc1
+apk add --no-cache make git bash
 
-int main(int argc, char *argv[])
-{
-    printf("Hello World from PlayStation 2!\n");
-
-    // Keep running so emulator doesn’t instantly exit
-    SleepThread();
-    return 0;
-}
 ```
 # Makefile
 ```
-EE_BIN = hello.elf
+EE_BIN = mygame.elf
 EE_OBJS = main.o
+EE_LIBS = -ldebug
 
-EE_INCS =
-EE_LIBS = -lc
+EE_CFLAGS = -O2 -G0 -Wall
 
 all: $(EE_BIN)
 
 clean:
-	rm -f *.o *.elf
+        rm -f *.elf *.o *.a
 
-include $(PS2DEV)/ee/Makefile.pref
-include $(PS2DEV)/ee/Makefile.eeglobal
+include $(PS2SDK)/samples/Makefile.pref
+include $(PS2SDK)/samples/Makefile.eeglobal
 ```
-# Build
+# main.c
 ```
-make
-hello.elf
-```
+#include <tamtypes.h>
+#include <kernel.h>
+#include <sifrpc.h>
+#include <debug.h>      // for scr_printf / init_scr
 
-# FUCK ME THIS IS WHAT ACTUALLY WORKED
-```
-docker pull ps2dev/ps2dev:latest
-sudo docker run -it --rm -v "$PWD:/src" ps2dev/ps2dev:latest sh
-echo $PS2DEV
-ls $PS2DEV
-%ee  iop  dvp  ports
-mips64r5900el-ps2-elf-gcc --version
+int main(int argc, char **argv)
+{
+    // Initialize RPC so we can talk to IOP if needed
+    SifInitRpc(0);
+
+    // Initialize debug screen output (basic text on screen)
+    init_scr();
+
+    // Clear screen and print message
+    scr_printf("Hello from PS2 Homebrew!\n");
+    scr_printf("Your first ELF is running :)\n\n");
+    scr_printf("Press RESET or power off...\n");
+
+    // Infinite loop - game "main loop"
+    while(1) {
+        // Could add controller reading / graphics later here
+    }
+
+    return 0;
+}
 ```
