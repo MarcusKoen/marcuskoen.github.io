@@ -134,3 +134,11 @@ int x=3;
 ```
 becomes: ['i','n','t',...,'3',';']
 ```
+# Lexical Analyzer
+This is what actually does the token parsing. A few options are available.
+1. Manually do string manipulation in language of choice (C++)
+2. Lex generation
+3. Flex/RE-Flex generation
+
+Due to time constraints and depleting sanity I will for the moment be using a lexical generator.
+This will be reworked in the future to a proper C++ lexical analyzer :D
