@@ -125,7 +125,7 @@ Due to my knowledge in reverse engineering, designing custom VM is the route I w
 Keep in mind: Syntax is anime, but the semantics are deadly serious and non-negotiable.
 
 # Phase 1
-
+All the work is done on a seperate repository [here](https://github.com/MarcusKoen/weebC)
 # Token Parsing
 Essentially breaking up the code that was given to the compiler into "tokens" e.g:
 ```
