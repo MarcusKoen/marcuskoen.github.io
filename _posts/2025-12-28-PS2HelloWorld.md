@@ -76,6 +76,32 @@ html, body {
   <div class="raindrop"></div>
 </div>
 
+/* Fix code block visibility */
+pre, code {
+  background-color: #0b0b0b !important;
+  color: #f2f2f2 !important;
+}
+
+/* Inline code */
+code {
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+/* Fenced code blocks */
+pre {
+  padding: 1em;
+  overflow-x: auto;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+/* Optional: monospace consistency */
+pre, code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+
 1. PCSX2
 2. Dumb BIOS
 3. Hello world C++
