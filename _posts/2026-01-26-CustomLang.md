@@ -123,3 +123,14 @@ Due to my knowledge in reverse engineering, designing custom VM is the route I w
 3. Compiler errors as ( I cannot believe I am actually doing this) anime tsundere insults
 
 Keep in mind: Syntax is anime, but the semantics are deadly serious and non-negotiable.
+
+# Phase 1
+
+# Token Parsing
+Essentially breaking up the code that was given to the compiler into "tokens" e.g:
+```
+int x=3;
+```
+```
+becomes: ['i','n','t',...,'3',';']
+```
