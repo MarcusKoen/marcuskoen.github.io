@@ -142,3 +142,167 @@ This is what actually does the token parsing. A few options are available.
 
 Due to time constraints and depleting sanity I will for the moment be using a lexical generator.
 This will be reworked in the future to a proper C++ lexical analyzer :D
+Nevermind I did it manually.
+# Lexical Analyzer Code
+```
+#include <iostream>
+#include <vector>
+using namespace std;
+
+    //An enum is a special type that represents a group of constants (unchangeable values)
+    enum TokenType
+    {
+        Number,
+        Identifier,
+        Equals,
+        LParen, RParen,
+        BinaryOperator,
+        Plus,
+        Minus,
+        Multiply,
+        Divide,
+
+        Be,
+
+    };
+
+
+/////////////////////////////////Token Class////////////////////////////////////////
+    //Can use a struct here as well, just depends on default access modifier
+    class Token
+    {
+    public:
+        std::string value;
+        TokenType type;
+        //Constructor for Token class.
+        //Just as a reminder for constructors in C++. 1. Same name as class. 2. No return type. 3. Has to be public.
+        Token(std::string Value, TokenType Type)
+        {
+            //Can also use this.value, this.type, Just personal preference
+            value = Value;
+            type = Type;
+        }
+    };
+///////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////Lexer Class//////////////////////////////////
+    class Lexer
+    {
+    public:
+        std::string text;
+        int pos = -1;
+        char current_char = '\0';//In C++ use '\0' NOT NULL
+
+        //Lexer Constructor
+        Lexer(std::string Text)
+        {
+            text = Text;
+            Advance();
+        }
+
+        void Advance()
+        {
+            pos += 1;
+            if(pos<text.length())
+            {
+                current_char=text[pos];
+            }
+            else
+            {
+                current_char = '\0';
+            }
+
+        }
+
+    std::vector<Token> makeTokens() //Need to use vectors since we cant use dynamic arrays like Token token =[]
+        {
+        std::vector<Token> tokens;
+            while(current_char!='\0')
+            {
+                if (isdigit(current_char))
+                    {
+                        tokens.push_back(makeNumber());
+                        continue;
+                    }
+
+                switch(current_char)
+                {
+                    case ' ':
+                    case '\t' :
+                         Advance();
+                         break;
+
+                    case '+' :
+                        tokens.push_back(Token("+",Plus));
+                        Advance();
+                        break;
+                    case '-' :
+                        tokens.push_back(Token("-",Minus));
+                        Advance();
+                        break;
+                    case '*' :
+                        tokens.push_back(Token("*",Multiply));
+                        Advance();
+                        break;
+                    case '/' :
+                        tokens.push_back(Token("/",Divide));
+                        Advance();
+                        break;
+                    case '(' :
+                        tokens.push_back(Token("(",LParen));
+                        Advance();
+                        break;
+                    case ')' :
+                        tokens.push_back(Token(")",RParen));
+                        Advance();
+                        break;
+                    default: Advance();
+                }
+
+            }
+
+            return tokens;
+        }
+
+    Token makeNumber()
+    {
+        std::string numStr;
+        bool hasDot = false;
+
+        while (current_char != '\0' &&
+              (isdigit(current_char) || current_char == '.'))
+        {
+            if (current_char == '.')
+            {
+                if (hasDot)
+                    break; // second dot stop number
+                hasDot = true;
+            }
+
+            numStr += current_char;
+            Advance();
+        }
+
+        return Token(numStr, Number);
+
+    }
+
+    };
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+int main()
+{
+    Lexer test("12 + 3.14 * (5 - 2)");
+    auto tokens = test.makeTokens();
+
+    for (auto& t : tokens)
+        cout << t.value << " ";
+
+
+}
+```
