@@ -1,0 +1,80 @@
+---
+layout: home
+title: Home
+---
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0f0f0f;
+  color: #e0e0e0;
+  font-family: monospace, system-ui, sans-serif;
+}
+
+/* Sakura container */
+.sakura-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Individual petal */
+.sakura {
+  position: absolute;
+  width: 12px;
+  height: 8px;
+  background: radial-gradient(circle at 30% 30%, #ffd6e7, #ff8fb3);
+  border-radius: 70% 30% 70% 30%;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px rgba(255,140,180,0.4));
+  animation: fall linear infinite, sway ease-in-out infinite, spin linear infinite;
+}
+
+/* Falling down */
+@keyframes fall {
+  from { transform: translateY(-10vh); }
+  to   { transform: translateY(110vh); }
+}
+
+/* Side drift */
+@keyframes sway {
+  0%,100% { margin-left: 0; }
+  50%     { margin-left: 60px; }
+}
+
+/* Gentle rotation */
+@keyframes spin {
+  from { rotate: 0deg; }
+  to   { rotate: 360deg; }
+}
+
+/* Random-ish variation */
+.sakura:nth-child(1)  { left: 5%;  animation-duration: 14s, 6s, 8s; }
+.sakura:nth-child(2)  { left: 15%; animation-duration: 18s, 7s, 12s; }
+.sakura:nth-child(3)  { left: 25%; animation-duration: 16s, 5s, 10s; }
+.sakura:nth-child(4)  { left: 35%; animation-duration: 20s, 8s, 14s; }
+.sakura:nth-child(5)  { left: 45%; animation-duration: 15s, 6s, 9s; }
+.sakura:nth-child(6)  { left: 55%; animation-duration: 22s, 9s, 16s; }
+.sakura:nth-child(7)  { left: 65%; animation-duration: 17s, 7s, 11s; }
+.sakura:nth-child(8)  { left: 75%; animation-duration: 19s, 8s, 13s; }
+.sakura:nth-child(9)  { left: 85%; animation-duration: 16s, 6s, 10s; }
+.sakura:nth-child(10) { left: 95%; animation-duration: 21s, 9s, 15s; }
+</style>
+
+<div class="sakura-container">
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+  <div class="sakura"></div>
+</div>
+
+Welcome. This is a minimal log of things I’m working on or thinking about.
