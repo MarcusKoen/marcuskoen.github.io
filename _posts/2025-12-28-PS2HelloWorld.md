@@ -64,19 +64,8 @@ html, body {
 .raindrop:nth-child(17) { left: 85%; animation-duration: 0.9s; }
 .raindrop:nth-child(18) { left: 90%; animation-duration: 1.2s; }
 .raindrop:nth-child(19) { left: 95%; animation-duration: 0.8s; }
-</style>
 
-<div class="rain-container">
-  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
-  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
-  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
-  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
-  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
-  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
-  <div class="raindrop"></div>
-</div>
-
-/* Fix code block visibility */
+  /* Fix code block visibility */
 pre, code {
   background-color: #0b0b0b !important;
   color: #f2f2f2 !important;
@@ -100,6 +89,19 @@ pre {
 pre, code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
+
+</style>
+
+<div class="rain-container">
+  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+  <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+  <div class="raindrop"></div>
+</div>
+
 
 
 1. PCSX2
