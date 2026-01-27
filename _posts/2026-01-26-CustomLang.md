@@ -306,3 +306,16 @@ int main()
 
 }
 ```
+# Parser
+
+# AST
+
+# Nodes
+
+# Interpreter
+
+# General Observations
+
+# Notes and Theory
+
+This whole excersise was really good revision for OOP principles, however I completely forgot to modularize my program. Everything was coded in a single main.c file.
