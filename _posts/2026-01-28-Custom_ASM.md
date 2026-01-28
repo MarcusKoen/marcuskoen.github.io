@@ -1,6 +1,6 @@
 ---
-title: Custom Assembler ISA Instruction Set
-author: Marcus Koen
+title: Custom Assembler ISA Instruction Set (In Progress) with emulator
+author: Marcus Koen 
 ---
 
 <style>
