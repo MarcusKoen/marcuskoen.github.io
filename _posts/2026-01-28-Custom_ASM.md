@@ -101,3 +101,24 @@ pre, code {
   <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
   <div class="raindrop"></div>
 </div>
+
+# Specs
+instruction encoding
+
+symbol tables & labels
+
+relocation
+
+linking concepts
+
+target architecture thinking
+
+# Start small:
+
+custom ISA
+
+8–16 instructions
+
+register-based
+
+output binary blobs
