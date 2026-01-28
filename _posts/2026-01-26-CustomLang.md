@@ -1,6 +1,6 @@
 ---
 author: Marcus Koen
-title: Fuck it all. Time for a new language. weebC.
+title: Time for a new language. weebC.
 ---
 <style>
 html, body {
@@ -317,5 +317,8 @@ int main()
 # General Observations
 
 # Notes and Theory
+
+# TO-DO
+finish write up, modularization, issues
 
 This whole excersise was really good revision for OOP principles, however I completely forgot to modularize my program. Everything was coded in a single main.c file.
