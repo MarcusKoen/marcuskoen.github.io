@@ -321,4 +321,176 @@ int main()
 # TO-DO
 finish write up, modularization, issues
 
+# Modularization
+src/
+├── main.cpp
+
+├── lexer/
+│   ├── lexer.h
+│   ├── lexer.cpp
+│   └── token.h
+
+├── parser/
+│   ├── parser.h
+│   ├── parser.cpp
+│   └── ast.h
+
+├── interpreter/
+│   ├── interpreter.h
+│   └── interpreter.cpp
+
+├── runtime/
+│   └── value.h        (future: types, objects, strings)
+
+└── util/
+    └── errors.h
+# Token.h
+```
+#pragma once
+#include <string>
+
+enum class TokenType {
+    Number,
+    Identifier,
+    Equals,
+
+    Plus, Minus, Multiply, Divide,
+
+    LParen, RParen,
+    LBrace, RBrace,
+
+    IF, THEN, ELSE,
+    WHILE, DO,
+
+    Less, Greater, LessEq, GreaterEq,
+    EqualEqual, NotEqual,
+
+    EOF_TOKEN
+};
+
+struct Token {
+    TokenType type;
+    std::string value;
+
+    Token(TokenType t, std::string v = "")
+        : type(t), value(v) {}
+};
+```
+# lexer.h
+```
+#pragma once
+#include <vector>
+#include "token.h"
+
+class Lexer {
+public:
+    Lexer(const std::string& input);
+    std::vector<Token> tokenize();
+
+private:
+    char current();
+    void advance();
+
+    Token makeNumber();
+    Token makeIdentifier();
+
+    std::string text;
+    size_t pos;
+};
+```
+# AST
+```
+#pragma once
+#include <vector>
+#include "token.h"
+
+struct ASTNode {
+    virtual ~ASTNode() = default;
+};
+
+struct NumberNode : ASTNode {
+    double value;
+    NumberNode(double v) : value(v) {}
+};
+
+struct VarAssignNode : ASTNode {
+    std::string name;
+    ASTNode* value;
+};
+
+struct WhileNode : ASTNode {
+    ASTNode* condition;
+    ASTNode* body;
+};
+
+struct BlockNode : ASTNode {
+    std::vector<ASTNode*> statements;
+};
+```
+# Parser.h
+```
+#pragma once
+#include <vector>
+#include "ast.h"
+#include "token.h"
+
+class Parser {
+public:
+    Parser(const std::vector<Token>& tokens);
+    ASTNode* parse();
+
+private:
+    ASTNode* statement();
+    ASTNode* expr();
+    ASTNode* whileStmt();
+    ASTNode* block();
+
+    Token current();
+    Token peek();
+    void advance();
+
+    std::vector<Token> tokens;
+    size_t index;
+};
+```
+# interpreter.h
+```
+#pragma once
+#include <unordered_map>
+#include "ast.h"
+
+class Interpreter {
+public:
+    void execute(ASTNode* node);
+
+private:
+    double eval(ASTNode* node);
+    std::unordered_map<std::string, double> symbols;
+};
+```
+# main.cpp
+```
+#include <iostream>
+#include "lexer/lexer.h"
+#include "parser/parser.h"
+#include "interpreter/interpreter.h"
+
+int main() {
+    Interpreter interp;
+
+    std::string line;
+    while (std::getline(std::cin, line)) {
+        try {
+            Lexer lex(line);
+            Parser parser(lex.tokenize());
+            ASTNode* ast = parser.parse();
+            interp.execute(ast);
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << "\n";
+        }
+    }
+}
+```
+
+
 This whole excersise was really good revision for OOP principles, however I completely forgot to modularize my program. Everything was coded in a single main.c file.
