@@ -122,3 +122,73 @@ custom ISA
 register-based
 
 output binary blobs
+
+# Specs
+1. Register based
+2. 32-bit instruction size
+3. 8 General purpose registers
+4. Little-endian
+5. Flat byte-addressed memory
+6. No Flags
+
+
+   31        24 23     20 19     16 15              0
++------------+---------+---------+----------------+
+|   OPCODE   |   RD    |   RS    |    IMMEDIATE   |
++------------+---------+---------+----------------+
+   8 bits       4 bits   4 bits       16 bits
+
+# Registers
+```
+1. R0
+2. R1
+3. R2
+4. R3
+5. R4
+6. R5
+7. R6
+8. R7
+```
+# Movement
+```
+MOV 
+MOVR 
+```
+# Arithmetic
+```
+ADD
+SUB
+MUL
+DIV
+```
+# Memory
+```
+LOAD
+STORE
+```
+# Control
+```
+CMP
+JMP
+JZ
+JNZ
+```
+# System
+```
+HALT
+```
+# Syntax
+```
+MOV  R1, 5
+MOV  R0, 0
+
+loop:
+ADD  R0, R1
+SUB  R1, 1
+CMP  R1, 0
+JNZ  loop
+
+HALT
+```
+
+
