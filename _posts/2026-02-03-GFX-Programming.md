@@ -1,6 +1,6 @@
 ---
 author: Marcus Koen
-title: C++ GFX Programming (In Progress)
+title: C++ GFX Programming (SDL) (In Progress)
 ---
 <style>
 html, body {
