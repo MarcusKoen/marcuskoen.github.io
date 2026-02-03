@@ -1,6 +1,6 @@
 ---
 author: Marcus Koen
-title: C++ GFX Programming (SDL) (In Progress)
+title: C++ GFX Programming (SDL2) (In Progress)
 ---
 <style>
 html, body {
@@ -100,3 +100,9 @@ pre, code {
   <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
   <div class="raindrop"></div>
 </div>
+
+# Repository Link
+The code for this project can be found [here](https://github.com/MarcusKoen/GFX-Programming-SDL)
+
+# SDL Library Link
+The actual library for SDL is found [here](https://www.libsdl.org)
