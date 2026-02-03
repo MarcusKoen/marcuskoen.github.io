@@ -106,3 +106,12 @@ The code for this project can be found [here](https://github.com/MarcusKoen/GFX-
 
 # SDL Library Link
 The actual library for SDL is found [here](https://www.libsdl.org)
+
+To make the library work with code blocks follow these steps:
+1. Get the SDL source code from [github](https://release-assets.githubusercontent.com/github-production-release-asset/330008801/a79538d8-b047-4ed2-bf1c-2229b9190fdd?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-02-03T11%3A49%3A33Z&rscd=attachment%3B+filename%3DSDL3-3.4.0.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-02-03T10%3A49%3A09Z&ske=2026-02-03T11%3A49%3A33Z&sks=b&skv=2018-11-09&sig=Kp0ffjOnqYnVcA4mMrf30nWvT8Lshq%2BCNrj5YkB1Ca8%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc3MDExODEwNSwibmJmIjoxNzcwMTE2MzA1LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.N6me3M-XFpvz1qf9giSzec_drAptY0vOvCt8yKE7UKI&response-content-disposition=attachment%3B%20filename%3DSDL3-3.4.0.zip&response-content-type=application%2Foctet-stream)
+2. In the folder is the "include" folder
+3. Move the contents of include to C:\Program Files\CodeBlocks\MinGW\include\SDL3
+4. In your source code
+```
+#include <SDL3/SDL.h>
+```
