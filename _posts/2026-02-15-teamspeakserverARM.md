@@ -117,7 +117,7 @@ docker pull ertagh/teamspeak3-server:arm64v8-latest-box-predownloaded
 ```
 # Running the Docker Container
 ```
-mkdir -p /home/youruser/ts3-data
+mkdir -p /home/user/ts3-data
 ```
 ```
 docker run -d \
@@ -126,8 +126,8 @@ docker run -d \
   -p 9987:9987/udp \
   -p 10011:10011/tcp \
   -p 30033:30033/tcp \
-  -e TIME_ZONE=Africa/Johannesburg \   
-  -v /home/youruser/ts3-data:/teamspeak/save/ \  
+  -e TIME_ZONE=Africa/Johannesburg \
+  -v /home/user/ts3-data:/teamspeak/save/ \
   ertagh/teamspeak3-server:arm64v8-latest-box-predownloaded
 ```
 ```
