@@ -100,3 +100,13 @@ pre, code {
   <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
   <div class="raindrop"></div>
 </div>
+
+# Installing Docker on ARM
+```
+curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh
+sudo usermod -aG docker $USER 
+```
+Log out and log back in 
+```
+docker run hello-world 
+```
