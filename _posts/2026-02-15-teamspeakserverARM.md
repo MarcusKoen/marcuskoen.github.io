@@ -110,3 +110,26 @@ Log out and log back in
 ```
 docker run hello-world 
 ```
+# Pulling TeamSpeak Server Docker Image
+Will be using the teamspeak docker image from ertagh [here](https://hub.docker.com/r/ertagh/teamspeak3-server)
+```
+docker pull ertagh/teamspeak3-server:arm64v8-latest-box-predownloaded
+```
+# Running the Docker Container
+```
+mkdir -p /home/youruser/ts3-data
+```
+```
+docker run -d \
+  --name ts3server \
+  --restart unless-stopped \
+  -p 9987:9987/udp \
+  -p 10011:10011/tcp \
+  -p 30033:30033/tcp \
+  -e TIME_ZONE=Africa/Johannesburg \   
+  -v /home/youruser/ts3-data:/teamspeak/save/ \  
+  ertagh/teamspeak3-server:arm64v8-latest-box-predownloaded
+```
+```
+docker logs ts3server
+```
