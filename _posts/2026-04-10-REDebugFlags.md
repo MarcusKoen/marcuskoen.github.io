@@ -91,6 +91,8 @@ pre, code {
 
   /* Highlighted line in assembly dumps */
 mark {
+    display: inline-block;
+  margin-left: -1ch; /* adjust if needed */
   background-color: #334422 !important;   /* matrix-greenish glow */
   color: #ff0 !important;
   padding: 2px 6px;
@@ -98,6 +100,7 @@ mark {
   font-weight: bold;
   box-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
 }
+
 </style>
 
 <div class="rain-container">
