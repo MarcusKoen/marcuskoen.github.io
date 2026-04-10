@@ -144,6 +144,7 @@ Assembly from said function in x64dbg
 00007FF793CD1707 | 48:8B05 2A8C0000         | mov rax,qword ptr ds:[<IsDebuggerPresen | rax:EntryPoint
 00007FF793CD170E | FFD0                     | call rax                                | rax:EntryPoint
 00007FF793CD1710 | 85C0                     | test eax,eax                            |
+<mark>; ← THIS IS THE HIGHLIGHTED LINE</mark>
 00007FF793CD1712 | 0F94C0                   | sete al                                 |
 00007FF793CD1715 | 84C0                     | test al,al                              |
 00007FF793CD1717 | 75 C6                    | jne idp.7FF793CD16DF                    |
