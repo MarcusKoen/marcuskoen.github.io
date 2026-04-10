@@ -183,4 +183,5 @@ To
 ```
 00007FF793CD1717 | EB C6                    | jmp idp.7FF793CD16DF                    |
 ```
+# CheckRemoteDebuggerPresent()
 
