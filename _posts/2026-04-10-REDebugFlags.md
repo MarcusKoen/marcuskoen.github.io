@@ -136,7 +136,8 @@ int main()
 
 ```
 Assembly from said function in x64dbg
-```
+
+<pre><code>
 00007FF793CD16D0 | 55                       | push rbp                                |
 00007FF793CD16D1 | 48:89E5                  | mov rbp,rsp                             |
 00007FF793CD16D4 | 48:83EC 20               | sub rsp,20                              |
@@ -152,8 +153,7 @@ Assembly from said function in x64dbg
 00007FF793CD1702 | E8 E11A0000              | call <JMP.&system>                      |
 00007FF793CD1707 | 48:8B05 2A8C0000         | mov rax,qword ptr ds:[<IsDebuggerPresen | rax:EntryPoint
 00007FF793CD170E | FFD0                     | call rax                                | rax:EntryPoint
-00007FF793CD1710 | 85C0                     | test eax,eax                            |
-<mark>; ← THIS IS THE HIGHLIGHTED LINE</mark>
+<mark>00007FF793CD1710 | 85C0                     | test eax,eax                            | </mark>
 00007FF793CD1712 | 0F94C0                   | sete al                                 |
 00007FF793CD1715 | 84C0                     | test al,al                              |
 00007FF793CD1717 | 75 C6                    | jne idp.7FF793CD16DF                    |
@@ -170,40 +170,6 @@ Assembly from said function in x64dbg
 00007FF793CD1749 | 48:83C4 20               | add rsp,20                              |
 00007FF793CD174D | 5D                       | pop rbp                                 |
 00007FF793CD174E | C3                       | ret                                     |
-```
-
-<pre><code>00007FF793CD16D0 | 55                   | push rbp
-00007FF793CD16D1 | 48:89E5              | mov rbp,rsp
-00007FF793CD16D4 | 48:83EC 20           | sub rsp,20
-00007FF793CD16D8 | E8 4A010000          | call idp.7FF793CD1827
-00007FF793CD16DD | EB 28                | jmp idp.7FF793CD1707
-00007FF793CD16DF | 48:8D05 6A390000     | lea rax,qword ptr ds:[7FF793CD5050]
-00007FF793CD16E6 | 48:89C2              | mov rdx,rax
-00007FF793CD16E9 | 48:8B05 F03C0000     | mov rax,qword ptr ds:[&lt;std::cout&gt;]
-00007FF793CD16F0 | 48:89C1              | mov rcx,rax
-00007FF793CD16F3 | E8 58000000          | call &lt;JMP.&amp;std::basic_ostream&lt;char,std&gt;
-00007FF793CD16F8 | 48:8D05 5D390000     | lea rax,qword ptr ds:[7FF793CD505C]
-00007FF793CD16FF | 48:89C1              | mov rcx,rax
-00007FF793CD1702 | E8 E11A0000          | call &lt;JMP.&amp;system&gt;
-00007FF793CD1707 | 48:8B05 2A8C0000     | mov rax,qword ptr ds:[&lt;IsDebuggerPresent&gt;]
-00007FF793CD170E | FFD0                 | call rax
-<mark>00007FF793CD1710 | 85C0                 | test eax,eax          ← THIS IS THE KEY ANTI-DEBUG CHECK</mark>
-00007FF793CD1712 | 0F94C0               | sete al
-00007FF793CD1715 | 84C0                 | test al,al
-00007FF793CD1717 | 75 C6                | jne idp.7FF793CD16DF
-00007FF793CD1719 | 48:8D05 40390000     | lea rax,qword ptr ds:[7FF793CD5060]
-00007FF793CD1720 | 48:89C2              | mov rdx,rax
-00007FF793CD1723 | 48:8B05 B63C0000     | mov rax,qword ptr ds:[&lt;std::cout&gt;]
-00007FF793CD172A | 48:89C1              | mov rcx,rax
-00007FF793CD172D | E8 1E000000          | call &lt;JMP.&amp;std::basic_ostream&lt;char,std&gt;
-00007FF793CD1732 | 48:89C1              | mov rcx,rax
-00007FF793CD1735 | 48:8B05 B43C0000     | mov rax,qword ptr ds:[&lt;JMP.&amp;std::basic_ostream...&gt;]
-00007FF793CD173C | 48:89C2              | mov rdx,rax
-00007FF793CD173F | E8 1C000000          | call &lt;JMP.&amp;std::ostream::operator&lt;&lt;&gt;
-00007FF793CD1744 | B8 00000000          | mov eax,0
-00007FF793CD1749 | 48:83C4 20           | add rsp,20
-00007FF793CD174D | 5D                   | pop rbp
-00007FF793CD174E | C3                   | ret
 </code></pre>
 
 
