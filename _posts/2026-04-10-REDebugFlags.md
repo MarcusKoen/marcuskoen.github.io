@@ -171,7 +171,7 @@ Assembly from said function in x64dbg
 00007FF793CD174D | 5D                       | pop rbp                                 |
 00007FF793CD174E | C3                       | ret                                     |
 ```
-```
+
 <pre><code>00007FF793CD16D0 | 55                   | push rbp
 00007FF793CD16D1 | 48:89E5              | mov rbp,rsp
 00007FF793CD16D4 | 48:83EC 20           | sub rsp,20
@@ -206,4 +206,4 @@ Assembly from said function in x64dbg
 00007FF793CD174E | C3                   | ret
 </code></pre>
 
-```
+
