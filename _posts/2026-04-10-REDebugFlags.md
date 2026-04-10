@@ -126,17 +126,19 @@ using namespace std;
 int main()
 {
 
-    cout << "Hello world!" << endl;
+   // cout << "Hello world!" << endl;
 
     while(!IsDebuggerPresent())
     {
 
+        cout << "No Debugger";
+        system("cls");
     }
     //just realized to make this harder give no message
+    //To increase difficulty maybe use a function, maybe a decoy as well
     cout << "Debugger Detected" << endl;
     return 0;
 }
-
 ```
 Assembly from said function in x64dbg
 
