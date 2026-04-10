@@ -173,4 +173,12 @@ Assembly from said function in x64dbg
 00007FF793CD174D | 5D                       | pop rbp                                 |
 00007FF793CD174E | C3                       | ret                                     |
 </code></pre>
+Patching
+```
+00007FF793CD1717 | 75 C6                    | jne idp.7FF793CD16DF                    |
+```
+To
+```
+00007FF793CD1717 | EB C6                    | jmp idp.7FF793CD16DF                    |
+```
 
