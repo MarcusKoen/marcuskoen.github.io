@@ -137,8 +137,7 @@ int main()
 ```
 Assembly from said function in x64dbg
 
-<pre><code>
-00007FF793CD16D0 | 55                       | push rbp                                |
+<pre><code>00007FF793CD16D0 | 55                       | push rbp                                |
 00007FF793CD16D1 | 48:89E5                  | mov rbp,rsp                             |
 00007FF793CD16D4 | 48:83EC 20               | sub rsp,20                              |
 00007FF793CD16D8 | E8 4A010000              | call idp.7FF793CD1827                   |
