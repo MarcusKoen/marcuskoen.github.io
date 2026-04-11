@@ -113,4 +113,4 @@ mark {
   <div class="raindrop"></div>
 </div>
 
-Thank you to (frank2) [https://github.com/frank2/packer-tutorial] for the invaluable fucking resource
+Thank you to [frank2](https://github.com/frank2/packer-tutorial) for the invaluable fucking resource
