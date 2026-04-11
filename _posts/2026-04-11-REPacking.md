@@ -114,3 +114,34 @@ mark {
 </div>
 
 Thank you to [frank2](https://github.com/frank2/packer-tutorial) for the invaluable fucking resource
+TODO: CMAKE
+
+# Simple Packing with [UPX](https://github.com/upx/upx)
+
+# Code for main program to be packed
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    bool bFlag = false;
+
+    int pass = 80085;
+    int entered;
+    while(!bFlag)
+    {
+        cout << "Enter Code" << endl;
+        cin >> entered;
+
+        if(pass==entered)
+            bFlag = true;
+            else cout << "Pass incorrect" << endl;
+    }
+
+    cout << "Correct" << endl;
+
+    return 0;
+}
+```
