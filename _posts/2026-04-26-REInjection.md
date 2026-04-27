@@ -122,130 +122,235 @@ Microsoft Detours\
 Loader.exe\
 HookDLL.dll
 
-# Setinng up Detours
-What the fuck is this?
+# Setting up Detours
+What the fuck is this?\
+# Build Microsoft Detours
+```
+git clone https://github.com/microsoft/Detours.git
+```
+1. Open "x64 Native Tools Command Prompt for VS"
+2. Navigate to Detours folder
+3. run nmake
 
+# Create Solution
+1. Project 1: TestApp (Console App)
+2. Project 2: HookDLL (DLL)
+3. Project 3: MyLoader (Console App)
+
+# Configure Detours in VS
+Do this for HookDLL and MyLoader\
+C/C++ → General → Additional Include Directories:\
+```
+C:\Dev\DetoursProject\detours\include
+```
+Linker → General → Additional Library Directories:\
+```
+C:\Dev\DetoursProject\detours\lib.X64
+```
+Linker → Input → Additional Dependencies:\
+```
+detours.lib
+```
+# Fix HookDLL
+Linker → Command Line → Additional Options\
+```
+/EXPORT:DetourFinishHelperProcess,@1
+```
+Now build
 
 # HookDLL.cpp
+Project → Properties → C/C++ → Precompiled Headers\
 ```
+Not Using Precompiled Headers
+```
+
+```
+#define _CRT_SECURE_NO_WARNINGS
 #include <windows.h>
 #include <detours.h>
 #include <iostream>
+#include <string>
+//#include "pch.h"
+#include <cstdio>
+#pragma comment(lib, "detours.lib")
 
-// Typedef for the original function
-typedef int (WINAPI* MessageBoxA_t)(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType);
-MessageBoxA_t OriginalMessageBoxA = MessageBoxA;   // Point to the real function
+// =======================
+// MessageBox Hook
+// =======================
+typedef int (WINAPI* MessageBoxA_t)(HWND, LPCSTR, LPCSTR, UINT);
+MessageBoxA_t OriginalMessageBoxA = MessageBoxA;
 
-// Our hooked version
-int WINAPI HookedMessageBoxA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType) {
-    // Log what was going to be shown
-    AllocConsole();                    // Optional: create debug console
-    freopen("CONOUT$", "w", stdout);
-    std::cout << "[Hook] Intercepted MessageBox!\n";
-    std::cout << "   Original Text: " << (lpText ? lpText : "NULL") << "\n";
-    std::cout << "   Original Caption: " << (lpCaption ? lpCaption : "NULL") << "\n";
+int WINAPI HookedMessageBoxA(HWND hWnd, LPCSTR text, LPCSTR caption, UINT type) {
+    std::cout << "[HookDLL] MessageBox intercepted!\n";
 
-    // Modify the message (this is where you can "bypass" or change behavior)
-    lpText = "This message was hooked and modified by my loader!";
-    lpCaption = "Hooked by MyLoader.exe";
-
-    // Call the original function with our changes
-    return OriginalMessageBoxA(hWnd, lpText, lpCaption, uType);
+    return OriginalMessageBoxA(
+        hWnd,
+        "Hooked MessageBox Text!",
+        "Hooked Title",
+        type
+    );
 }
 
-// Install the hook
-BOOL InstallHooks() {
+// =======================
+// WriteFile Hook (cout)
+// =======================
+typedef BOOL(WINAPI* WriteFile_t)(
+    HANDLE, LPCVOID, DWORD, LPDWORD, LPOVERLAPPED);
+
+WriteFile_t OriginalWriteFile = WriteFile;
+
+BOOL WINAPI HookedWriteFile(
+    HANDLE hFile,
+    LPCVOID buffer,
+    DWORD bytesToWrite,
+    LPDWORD bytesWritten,
+    LPOVERLAPPED overlapped)
+{
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (hFile == hStdOut && buffer && bytesToWrite > 0) {
+        std::string msg((const char*)buffer, bytesToWrite);
+        msg = "[HOOKED] " + msg;
+
+        return OriginalWriteFile(
+            hFile,
+            msg.c_str(),
+            (DWORD)msg.size(),
+            bytesWritten,
+            overlapped
+        );
+    }
+
+    return OriginalWriteFile(
+        hFile,
+        buffer,
+        bytesToWrite,
+        bytesWritten,
+        overlapped
+    );
+}
+
+// =======================
+// Install Hooks
+// =======================
+void InstallHooks() {
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
+
     DetourAttach(&(PVOID&)OriginalMessageBoxA, HookedMessageBoxA);
-    return DetourTransactionCommit() == NO_ERROR;
+    DetourAttach(&(PVOID&)OriginalWriteFile, HookedWriteFile);
+
+    DetourTransactionCommit();
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved) {
-    switch (reason) {
-    case DLL_PROCESS_ATTACH:
+// =======================
+// Entry Point
+// =======================
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID) {
+    if (reason == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(hModule);
-        if (InstallHooks()) {
-            MessageBoxA(NULL, "HookDLL injected and hooks installed successfully!", "Success", MB_OK);
-        } else {
-            MessageBoxA(NULL, "Failed to install hooks!", "Error", MB_OK);
-        }
-        break;
 
-    case DLL_PROCESS_DETACH:
-        // Optional: uninstall hooks
-        break;
+        AllocConsole();
+        freopen("CONOUT$", "w", stdout);
+
+        std::cout << "[HookDLL] Injected!\n";
+
+        InstallHooks();
+
+        MessageBoxA(NULL, "DLL Injected Successfully!", "HookDLL", MB_OK);
     }
+
     return TRUE;
 }
 ```
-
-# Loader.cpp
+# MyLoader.cpp
 ```
-// loader.cpp (simple version)
 #include <windows.h>
 #include <detours.h>
 #include <iostream>
 
+#pragma comment(lib, "detours.lib")
+
 int main() {
-    const char* targetExe = "C:\\path\\to\\your\\crackme.exe";   // Change this
-    const char* dllToInject = "C:\\path\\to\\HookDLL.dll";       // Your DLL
+    const char* target =
+        "C:\\Dev\\DetoursLab\\DetoursLab\\x64\\Debug\\TestApp.exe";
+
+    const char* dll =
+        "C:\\Dev\\DetoursLab\\DetoursLab\\x64\\Debug\\HookDLL.dll";
 
     STARTUPINFOA si = { sizeof(si) };
     PROCESS_INFORMATION pi = {};
 
-    // This launches the target + injects your DLL automatically
-    if (!DetourCreateProcessWithDlls(
-            NULL,                          // lpApplicationName
-            const_cast<char*>(targetExe),  // lpCommandLine
-            NULL, NULL, FALSE,
-            CREATE_DEFAULT_ERROR_MODE,     // or CREATE_SUSPENDED if you need more control
-            NULL, NULL,
-            &si, &pi,
-            1, &dllToInject,               // Number of DLLs + array of paths
-            NULL)) {
+    std::cout << "Launching target with DLL injection...\n";
 
-        std::cout << "Failed to create process with DLL. Error: " << GetLastError() << std::endl;
+    if (!DetourCreateProcessWithDllsA(
+        NULL,
+        (LPSTR)target,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_DEFAULT_ERROR_MODE,
+        NULL,
+        NULL,
+        &si,
+        &pi,
+        1,
+        &dll,
+        NULL))
+    {
+        std::cout << "Failed. Error: " << GetLastError() << std::endl;
         return 1;
     }
 
-    std::cout << "Process launched with DLL injected! PID: " << pi.dwProcessId << std::endl;
+    std::cout << "Success! PID: " << pi.dwProcessId << std::endl;
 
-    // Optional: Wait for the process
     WaitForSingleObject(pi.hProcess, INFINITE);
 
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
+
     return 0;
 }
 ```
-# Suspended + Manual Injection
-
+# TestApp.cpp
 ```
-// Manual suspended injection example (basic LoadLibrary style)
-STARTUPINFO si = { sizeof(si) };
-PROCESS_INFORMATION pi;
+#include <windows.h>
+#include <iostream>
+#include <string>
 
-if (!CreateProcess(NULL, const_cast<char*>(targetExe), NULL, NULL, FALSE,
-                   CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
-    // error
+int main() {
+    std::cout << "=== TestApp Started ===\n";
+
+    std::cout << "Normal cout message 1\n";
+    std::cout << "Normal cout message 2\n";
+
+    MessageBoxA(NULL, "Original MessageBox text", "Original Title", MB_OK);
+
+    for (int i = 1; i <= 3; i++) {
+        std::string msg = "Loop iteration " + std::to_string(i);
+        std::cout << msg << std::endl;
+
+        MessageBoxA(NULL, msg.c_str(), "Loop MessageBox", MB_OK);
+    }
+
+    std::cout << "=== TestApp Finished ===\n";
+    std::cin.get();
+
+    return 0;
 }
-
-// Allocate memory in target for DLL path
-SIZE_T pathLen = strlen(dllToInject) + 1;
-LPVOID remoteMem = VirtualAllocEx(pi.hProcess, NULL, pathLen, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-
-WriteProcessMemory(pi.hProcess, remoteMem, dllToInject, pathLen, NULL);
-
-// Get LoadLibrary address (same in all processes)
-LPVOID loadLibAddr = (LPVOID)GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
-
-// Create remote thread to call LoadLibrary
-HANDLE hThread = CreateRemoteThread(pi.hProcess, NULL, 0,
-                                    (LPTHREAD_START_ROUTINE)loadLibAddr,
-                                    remoteMem, 0, NULL);
-
-// Resume the main thread
-ResumeThread(pi.hThread);
 ```
+# Now run Loader.exe
+```
+Launching target with DLL injection...
+Success! PID: xxxxx
+[HookDLL] Injected!
+[HOOKED] [HookDLL] MessageBox intercepted!
+[HOOKED] === TestApp Started ===
+[HOOKED] Normal cout message 1
+[HOOKED] Normal cout message 2
+[HOOKED] [HookDLL] MessageBox intercepted!
+[HOOKED] Loop iteration 1[HOOKED]
+
+```
+
 
