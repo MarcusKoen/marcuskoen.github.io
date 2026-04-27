@@ -118,9 +118,13 @@ Oh my poes, DO NOT hook any applications or inject any code that is not your own
 Vms
 ```
 # Environments
-Microsoft Detours
-Loader.exe
+Microsoft Detours\
+Loader.exe\
 HookDLL.dll
+
+# Setinng up Detours
+What the fuck is this?
+
 
 # HookDLL.cpp
 ```
