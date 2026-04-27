@@ -114,8 +114,8 @@ mark {
 </div>
 
 ```
-Oh my poes, DO NOT hook any applications or inject any code that is not your own, it is illegal and only practice on your own software in your own
-Vms
+Oh my poes, DO NOT hook any applications or inject any code that is not your own, 
+it is illegal and only practice on your own software in your own VMs!!!
 ```
 # Environments
 Microsoft Detours\
